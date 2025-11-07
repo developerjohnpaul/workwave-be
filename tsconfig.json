@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "ES2021",
+    "module": "commonjs",
+    "outDir": "./build",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "baseUrl": "./",
+    "strictPropertyInitialization": false,
+    "paths": {
+      //client
+      "@clientFacingApi/utils/*": ["src/clientFacingApi/utils/*"],
+      "@clientFacingApi/endpoints/*": ["src/clientFacingApi/endpoints/*"],
+      "@clientFacingApi/helpers/*": ["src/clientFacingApi/helpers/*"],
+      "@clientFacingApi/middleware/*": ["src/clientFacingApi/middleware/*"],
+      "@clientFacingApi/models/*": ["src/clientFacingApi/models/*"],
+      "@clientFacingApi/server-storage/*": ["src/clientFacingApi/server-storage/*"],
+      "@/*": ["./src*"] ,
+
+     
+    }
+  }
+}

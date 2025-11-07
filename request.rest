@@ -1,0 +1,105 @@
+GET http://localhost:3010/auth/currentUser
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzI4MjYyNDc2LCJleHAiOjE3MjgyOTEyNzZ9.y7x3DIZkbkxtkB-keI1VzcOwtZk0ZT8iElEgwbHRGqA
+
+Content-Type: application/json
+
+
+###
+
+POST  http://localhost:3010/auth/signIn/phoneNumber
+Content-Type: application/json
+
+{
+ "phoneNumber": "+2349160720872",
+  "pass":"12345"
+}
+###
+  POST    https://aim-be.onrender.com/auth/signUp/phoneNumber
+Content-Type: application/json
+
+{
+ "fullName": "john paul",
+  "phoneNumber": "+2349160720872",
+   "pass": "12345"
+
+  }
+###
+POST   https://aim-be.onrender.com/auth/signIn/email
+Content-Type: application/json
+
+{ 
+ "email":"developerjohnpaul@gmail.com",
+"pass":"12345"
+}
+
+###
+GET http://localhost:3010/devotion/files/1/20 
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTQsImlhdCI6MTc0MDQ5ODQ3MCwiZXhwIjoxNzQwNTI3MjcwfQ.JJ45DwO1vRB2hBvTJx9x68h49gtBgqEpmoRa1l-DUAE
+
+###
+GET http://localhost:3010/devotion/fileById/11
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTQsImlhdCI6MTc0MDQ5ODQ3MCwiZXhwIjoxNzQwNTI3MjcwfQ.JJ45DwO1vRB2hBvTJx9x68h49gtBgqEpmoRa1l-DUAE
+
+
+###
+
+  POST  http://localhost:3010/auth/signUp/phoneNumber
+Content-Type: application/json
+
+{
+ "fullName": "john paul",
+  "phoneNumber": "2349160720872",
+   "pass": "12345"
+
+  }
+###
+post   http://localhost:3010/audioSermon/addToFavorite/253
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTMsImlhdCI6MTc0MjE0NzE0MCwiZXhwIjoxNzQyMTc1OTQwfQ.5ZPZPQbUWMLLVcxnHHgSE6zE4GtHrRQTnQR3VYZ7VoE
+###
+GET   http://localhost:3010/audioSermon/removeFromFavorites/10
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzI4MTAyMDIyLCJleHAiOjE3MjgxMzA4MjJ9.AVEf9pDXpSAf1YtIvv5XA4OaQZwIbFW_2Rw79rlnZ0U
+###
+GET   http://localhost:3010/audioSermon/favorites/files/1/30
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTMsImlhdCI6MTc0MjE0NzAxMywiZXhwIjoxNzQyMTc1ODEzfQ.ZV4U2r4bkp8CmO565KeiBTwynWPcCFYv12G-7SQ2B3A
+
+###
+POST   http://localhost:3010/devotion/addToFavorite/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTMsImlhdCI6MTc0MDU0MDA0OSwiZXhwIjoxNzQwNTY4ODQ5fQ.zs3jEDN1Ti7Cd3Zdgy9h55slkQOSEHawo7rsCIeNybY
+###
+GET   http://localhost:3010/devotion/removeFromFavorites/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzI4MTAyMDIyLCJleHAiOjE3MjgxMzA4MjJ9.AVEf9pDXpSAf1YtIvv5XA4OaQZwIbFW_2Rw79rlnZ0U
+###
+GET   http://localhost:3010/devotion/favorites/files/1/30
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzM5NDg0Nzc0LCJleHAiOjE3Mzk1MTM1NzR9.DUO7uOyKTBkq9JfqOpneqo91bi5aQv5kk6YEzDwZmbk
+
+###
+GET   http://localhost:3010/carousel/files
+
+###
+GET   http://localhost:3010/audioSermon/categories
+###
+GET   http://localhost:3010/audioSermon/fileById/253
+
+###
+GET   http://localhost:3010/otp/send/sms/2349160720872
+###
+GET   http://localhost:3010/audioSermon/files/1/30
+###
+GET   http://localhost:3010/audioSermon/files/inCategory/4/1/30
+###
+GET   http://localhost:3010/testimony/fileById/1
+###
+POST    http://localhost:3010/otp/send/mail/developerjohnpaul@gmail.com
+###
+POST    https://aim-be.onrender.com/otp/verify/developerjohnpaul@gmail.com/1059
+###
+PUT    http://localhost:3010/auth/resetPassword/email/developerjohnpaul@gmail.com/12345
+
+###
+PUT    http://localhost:3010/auth/verify/email/developerjohnpaul@gmail.com
+###
+
+DELETE     http://localhost:3010/auth/delete/email/developerjohnpaul@gmail.com
+###
+
+DELETE     http://localhost:3010/auth/delete/phoneNumber/+2349160720872
