@@ -13,9 +13,11 @@ const http_status_codes_1 = require("http-status-codes");
 const dotenv_1 = __importDefault(require("dotenv"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const routes_2 = __importDefault(require("./src/clientFacingApi/endpoints/otp/routes"));
+const swagger_1 = require("./src/clientFacingApi/docs/swagger");
 const { Server } = require("socket.io");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
+(0, swagger_1.setupSwaggerDocs)(app);
 //port  
 const ListeningPORT = process.env.ListeningPORT || 3010;
 const server = app.listen(ListeningPORT, () => {

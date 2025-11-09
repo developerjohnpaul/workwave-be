@@ -8,10 +8,12 @@ import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
 import { Socket } from 'socket.io';
 import otpRouter from './src/clientFacingApi/endpoints/otp/routes';
+import { setupSwaggerDocs } from './src/clientFacingApi/docs/swagger';
 
 const {Server}= require("socket.io")
 dotenv.config();
 const app = express();
+setupSwaggerDocs(app)
 //port  
 const ListeningPORT = process.env.ListeningPORT || 3010;
 const server = 
