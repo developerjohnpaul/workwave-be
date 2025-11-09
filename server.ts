@@ -15,11 +15,11 @@ dotenv.config();
 const app = express();
 setupSwaggerDocs(app)
 //port  
-const ListeningPORT = process.env.ListeningPORT || 3010;
-const server = 
-app.listen(ListeningPORT, () => {
-  console.log(`Server is running at http://localhost:${ListeningPORT}`);
+const PORT = process.env.PORT || 3010;
+const server = app.listen(PORT, () => {
+  console.log(`Server is running at http://localhost:${PORT}`);
 });
+
 //initializing socket.io server
 const io = new Server(server, {
   cors: {
