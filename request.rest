@@ -1,6 +1,5 @@
 GET http://localhost:3010/auth/currentUser
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzI4MjYyNDc2LCJleHAiOjE3MjgyOTEyNzZ9.y7x3DIZkbkxtkB-keI1VzcOwtZk0ZT8iElEgwbHRGqA
-
+Authorization: Bearer 
 Content-Type: application/json
 
 
@@ -14,7 +13,7 @@ Content-Type: application/json
   "pass":"12345"
 }
 ###
-  POST    https://aim-be.onrender.com/auth/signUp/phoneNumber
+  POST    http://localhost:3010/auth/signUp/phoneNumber
 Content-Type: application/json
 
 {
@@ -24,7 +23,17 @@ Content-Type: application/json
 
   }
 ###
-POST   https://aim-be.onrender.com/auth/signIn/email
+  POST    http://localhost:3010/auth/signUp/email
+Content-Type: application/json
+
+{
+ "fullName": "john paul",
+ "email":"developerjohnpaul@gmail.com",
+"pass":"12345"
+}
+###
+
+POST   http://localhost:3010/auth/signIn/email
 Content-Type: application/json
 
 { 
@@ -91,12 +100,12 @@ GET   http://localhost:3010/testimony/fileById/1
 ###
 POST    http://localhost:3010/otp/send/mail/developerjohnpaul@gmail.com
 ###
-POST    https://aim-be.onrender.com/otp/verify/developerjohnpaul@gmail.com/1059
+POST    http://localhost:3010/otp/verify/developerjohnpaul@gmail.com/1224
 ###
 PUT    http://localhost:3010/auth/resetPassword/email/developerjohnpaul@gmail.com/12345
 
 ###
-PUT    http://localhost:3010/auth/verify/email/developerjohnpaul@gmail.com
+PUT    http://localhost:3010/auth/verify/email/developerjohnpaul@gmail.com/9583
 ###
 
 DELETE     http://localhost:3010/auth/delete/email/developerjohnpaul@gmail.com

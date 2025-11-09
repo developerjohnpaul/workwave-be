@@ -7,9 +7,7 @@ authRouter.post("/signUp/:method", signUp);
 authRouter.post("/signIn/:method", signIn);
 authRouter.get("/currentUser", authenticateToken, currentUser);
 authRouter.put("/resetPassword/:method/:methodCredential/:newPassword", resetPassword);
-authRouter.put("/verify/:method/:contactInformation", verify);
+authRouter.put("/verify/:method/:contactInformation/:code", verify);
 authRouter.delete("/delete/:method/:contactInformation", deleteAccount);
-
-
 
 export default authRouter; 

@@ -7,6 +7,7 @@ const http_status_codes_1 = require("http-status-codes");
 const helpers_1 = require("../../utils/helpers");
 const auth_tokens_1 = require("../../middleware/auth-tokens");
 const enums_1 = require("../../models/enums");
+const cache_1 = require("../../server-storage/cache");
 var methodEnum;
 (function (methodEnum) {
     methodEnum["google"] = "google";
@@ -106,7 +107,7 @@ const signInQuery = ({ sql, req, res, redirect }) => {
         }
         else {
             if (resDetails) {
-                const { id, fullName, email, phoneNumber, accountCreateDate, verificationFlag, isPhoneNumberVeried, isEmailVerified, favoriteAudioSermons, favoriteDevotionals } = resDetails;
+                const { id, fullName, email, phoneNumber, accountCreateDate, verificationFlag, isEmailVerified, favoriteAudioSermons, favoriteDevotionals } = resDetails;
                 const userDetailsObj = {
                     id,
                     fullName,
@@ -115,7 +116,6 @@ const signInQuery = ({ sql, req, res, redirect }) => {
                     accountCreateDate,
                     verificationFlag: (0, helpers_1.convertBitToBoolean)(verificationFlag),
                     isEmailVerified: (0, helpers_1.convertBitToBoolean)(isEmailVerified),
-                    isPhoneNumberVeried: (0, helpers_1.convertBitToBoolean)(isPhoneNumberVeried),
                     favoriteAudioSermons: favoriteAudioSermons?.split(",")?.map(Number) ?? [],
                     favoriteDevotionals: favoriteDevotionals?.split(",")?.map(Number) ?? [],
                 };
@@ -154,24 +154,29 @@ const resetPassword = (req, res) => {
 };
 exports.resetPassword = resetPassword;
 const verify = (req, res) => {
-    let { method, contactInformation } = req?.params;
-    let sql;
-    switch (method) {
-        case methodEnum?.phoneNumber:
-            sql = ` UPDATE users 
+    let { method, contactInformation, code } = req?.params;
+    if ((0, cache_1.validateCache)(`otp:${contactInformation}`) && (0, helpers_1.decryptData)((0, cache_1.getCache)(`otp:${contactInformation}`)) == code) {
+        let sql;
+        switch (method) {
+            case methodEnum?.phoneNumber:
+                sql = ` UPDATE users 
             SET verificationFlag = 1, isPhoneNumberVeried = 1 
            WHERE phoneNumber = ${contactInformation} ;`;
-            break;
-        case methodEnum?.email:
-            sql = `UPDATE users 
+                break;
+            case methodEnum?.email:
+                sql = `UPDATE users 
             SET verificationFlag = 1, isEmailVerified = 1
            WHERE email = "${contactInformation}";`;
-    }
-    constants_1.conUser.query(sql, (err, result) => {
-        if (err) {
-            return res?.status(http_status_codes_1.StatusCodes?.INTERNAL_SERVER_ERROR)?.json((0, helpers_1.ApiFailureResponse)("Contact verification failed, please try again later"));
         }
-        res.status(http_status_codes_1.StatusCodes?.OK)?.json((0, helpers_1.ApiSuccessResponse)(null, "Contact verified successfully"));
-    });
+        constants_1.conUser.query(sql, (err, result) => {
+            if (err) {
+                return res?.status(http_status_codes_1.StatusCodes?.INTERNAL_SERVER_ERROR)?.json((0, helpers_1.ApiFailureResponse)("Contact verification failed, please try again later"));
+            }
+            res.status(http_status_codes_1.StatusCodes?.OK)?.json((0, helpers_1.ApiSuccessResponse)(null, "Contact verified successfully"));
+        });
+    }
+    else {
+        return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json((0, helpers_1.ApiFailureResponse)('Invalid OTP code. Please try again.'));
+    }
 };
 exports.verify = verify;

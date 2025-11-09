@@ -29,7 +29,7 @@ const sendSmsOtp = async (req, res) => {
                 pin_time_to_live: 5,
                 pin_length: 4,
                 pin_placeholder: "8475",
-                message_text: `Your Agapesprings-Online confirmation code is ${otp}. It expires in 20 minutes, one-time use only.`,
+                message_text: `Your Workwave confirmation code is ${otp}. It expires in 20 minutes, one-time use only.`,
                 pin_type: "NUMERIC",
             };
             await axios_1.default.post('https://api.ng.termii.com/api/sms/otp/send', data, {
@@ -59,7 +59,7 @@ const sendEmailOtp = async (req, res) => {
     else {
         var mailOptions = {
             from: {
-                name: "Agapesprings Online",
+                name: "Workwave",
                 address: "blime.invest@gmail.com",
             },
             to: `${reciever}`,
@@ -68,7 +68,7 @@ const sendEmailOtp = async (req, res) => {
             <div> 
              <p style="font-size:13px">Your Confirmation code is :</p>
               <h2>${otp} </h2>
-              <p style="font-size:13px">Above  is your Agapesprings-Online verification pin. It expires in 20 minutes, one time use only </p>
+              <p style="font-size:13px">Above  is your Workwave verification pin. It expires in 20 minutes, one time use only </p>
              <p>If you didn't make this request please ignore this mail </p>
             </div>
               `,

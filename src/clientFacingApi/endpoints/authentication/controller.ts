@@ -2,13 +2,13 @@ import "dotenv/config";
 import { Request, Response } from "express";
 import { conUser } from "../../utils/constants"
 import { StatusCodes } from "http-status-codes";
-import { ApiFailureResponse, ApiSuccessResponse, convertBitToBoolean } from "../../utils/helpers";
+import { ApiFailureResponse, ApiSuccessResponse, convertBitToBoolean, decryptData } from "../../utils/helpers";
 import { queryInterface, userModel } from "../../models/index";
 import { initializeToken } from "../../middleware/auth-tokens";
 import { MysqlError } from "mysql";
 import { errorMessages, TokenEnum } from "../../models/enums";
 import { protectedRoutesRequest, signInRequestModel, signUpRequestModel } from "../../models/endpoints-model";
-
+import { getCache, validateCache } from "../../server-storage/cache";
 enum methodEnum {
     google = "google",
     phoneNumber = "phoneNumber",
@@ -113,7 +113,7 @@ export const signInQuery = ({ sql, req, res, redirect }: queryInterface) => {
             return;
         } else {
             if (resDetails) {
-                const { id, fullName, email, phoneNumber, accountCreateDate, verificationFlag, isPhoneNumberVeried, isEmailVerified,favoriteAudioSermons,favoriteDevotionals } = resDetails
+                const { id, fullName, email, phoneNumber, accountCreateDate, verificationFlag, isEmailVerified, favoriteAudioSermons, favoriteDevotionals } = resDetails
                 const userDetailsObj: userModel = {
                     id,
                     fullName,
@@ -122,9 +122,8 @@ export const signInQuery = ({ sql, req, res, redirect }: queryInterface) => {
                     accountCreateDate,
                     verificationFlag: convertBitToBoolean(verificationFlag),
                     isEmailVerified: convertBitToBoolean(isEmailVerified),
-                    isPhoneNumberVeried: convertBitToBoolean(isPhoneNumberVeried),
-                    favoriteAudioSermons:favoriteAudioSermons?.split(",")?.map(Number) ?? [],
-                    favoriteDevotionals:favoriteDevotionals?.split(",")?.map(Number) ?? [],
+                    favoriteAudioSermons: favoriteAudioSermons?.split(",")?.map(Number) ?? [],
+                    favoriteDevotionals: favoriteDevotionals?.split(",")?.map(Number) ?? [],
                 };
                 let token = initializeToken({ req, res, id })?.valueOf();
                 token ? res.status(StatusCodes?.OK)?.json(ApiSuccessResponse({ token, user: userDetailsObj }, `Signin was successful.`)) :
@@ -162,23 +161,28 @@ export const resetPassword = (req: protectedRoutesRequest, res: Response) => {
 
 
 export const verify = (req: protectedRoutesRequest, res: Response) => {
-    let { method, contactInformation } = req?.params;
-    let sql;
-    switch (method) {
-        case methodEnum?.phoneNumber:
-            sql = ` UPDATE users 
+    let { method, contactInformation, code } = req?.params;
+    if (validateCache(`otp:${contactInformation}`) && decryptData(getCache(`otp:${contactInformation}`)) == code) {
+        let sql;
+        switch (method) {
+            case methodEnum?.phoneNumber:
+                sql = ` UPDATE users 
             SET verificationFlag = 1, isPhoneNumberVeried = 1 
            WHERE phoneNumber = ${contactInformation} ;`
 
-            break
-        case methodEnum?.email:
-            sql = `UPDATE users 
+                break
+            case methodEnum?.email:
+                sql = `UPDATE users 
             SET verificationFlag = 1, isEmailVerified = 1
            WHERE email = "${contactInformation}";`
+        }
+
+        conUser.query(sql, (err: MysqlError | null, result: any) => {
+            if (err) { return res?.status(StatusCodes?.INTERNAL_SERVER_ERROR)?.json(ApiFailureResponse("Contact verification failed, please try again later")); }
+            res.status(StatusCodes?.OK)?.json(ApiSuccessResponse(null, "Contact verified successfully"));
+        })
+    } else {
+        return res.status(StatusCodes.BAD_REQUEST).json(ApiFailureResponse('Invalid OTP code. Please try again.'));
     }
 
-    conUser.query(sql, (err: MysqlError | null, result: any) => {
-        if (err) { return res?.status(StatusCodes?.INTERNAL_SERVER_ERROR)?.json(ApiFailureResponse("Contact verification failed, please try again later")); }
-        res.status(StatusCodes?.OK)?.json(ApiSuccessResponse(null, "Contact verified successfully"));
-    })
 }

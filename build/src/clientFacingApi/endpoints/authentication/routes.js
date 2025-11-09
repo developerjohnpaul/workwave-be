@@ -11,6 +11,6 @@ authRouter.post("/signUp/:method", controller_1.signUp);
 authRouter.post("/signIn/:method", controller_1.signIn);
 authRouter.get("/currentUser", auth_tokens_1.authenticateToken, controller_1.currentUser);
 authRouter.put("/resetPassword/:method/:methodCredential/:newPassword", controller_1.resetPassword);
-authRouter.put("/verify/:method/:contactInformation", controller_1.verify);
+authRouter.put("/verify/:method/:contactInformation/:code", controller_1.verify);
 authRouter.delete("/delete/:method/:contactInformation", controller_1.deleteAccount);
 exports.default = authRouter;
