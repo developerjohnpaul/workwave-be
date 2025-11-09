@@ -15,7 +15,7 @@ dotenv.config();
 const app = express();
 setupSwaggerDocs(app)
 //port  
-const PORT = process.env.PORT || 3010;
+const PORT = process?.env?.PORT || 3010;
 const server = app.listen(PORT, () => {
   console.log(`Server is running at http://localhost:${PORT}`);
 });

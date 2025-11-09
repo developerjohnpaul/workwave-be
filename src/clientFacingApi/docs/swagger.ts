@@ -12,7 +12,7 @@ const options = {
     },
     servers: [
       {
-        url: "http://localhost:3010",
+        url:  process?.env?.environment,
         description: "Local server",
       },
     ],
