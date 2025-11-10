@@ -159,7 +159,7 @@ const resetPassword = (req, res) => {
         });
     }
     else {
-        return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json((0, helpers_1.ApiFailureResponse)('Invalid OTP code. Please try again.'));
+        return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json((0, helpers_1.ApiFailureResponse)('Session expired, please request a new OTP'));
     }
 };
 exports.resetPassword = resetPassword;

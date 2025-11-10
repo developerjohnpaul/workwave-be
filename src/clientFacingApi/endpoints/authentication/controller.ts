@@ -164,7 +164,7 @@ export const resetPassword = (req: protectedRoutesRequest, res: Response) => {
         res.status(StatusCodes?.OK)?.json(ApiSuccessResponse(null, "Password reset successfully"));
     })
     } else {
-        return res.status(StatusCodes.BAD_REQUEST).json(ApiFailureResponse('Invalid OTP code. Please try again.'));
+        return res.status(StatusCodes.BAD_REQUEST).json(ApiFailureResponse('Session expired, please request a new OTP'));
     }
    
 }
