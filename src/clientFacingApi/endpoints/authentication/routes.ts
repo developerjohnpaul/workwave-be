@@ -102,7 +102,7 @@ authRouter.get("/currentUser", authenticateToken, currentUser);
 
 /**
  * @swagger
- * /auth/resetPassword/{method}/{methodCredential}/{newPassword}:
+ * /auth/resetPassword/{method}/{methodCredential}/{newPassword}/{code}:
  *   put:
  *     summary: Reset a user's password
  *     tags: [Auth]
@@ -175,7 +175,7 @@ authRouter.put("/verify/:method/:contactInformation/:code", verify);
 
 /**
  * @swagger
- * /auth/delete/{method}/{contactInformation}:
+ * /auth/delete/{method}/{contactInformation}/{code}:
  *   delete:
  *     summary: Delete a user account
  *     tags: [Auth]
