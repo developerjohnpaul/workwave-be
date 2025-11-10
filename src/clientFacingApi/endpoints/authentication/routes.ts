@@ -1,11 +1,11 @@
 import express from "express";
 import {
-    currentUser,
-    deleteAccount,
-    resetPassword,
-    signIn,
-    signUp,
-    verify,
+  currentUser,
+  deleteAccount,
+  resetPassword,
+  signIn,
+  signUp,
+  verify,
 } from "./controller";
 import { authenticateToken } from "../../middleware/auth-tokens";
 
@@ -29,8 +29,8 @@ const authRouter = express.Router();
  *         name: method
  *         required: true
  *         schema:
- *           type: string
- *         description: The signup method (e.g., email, phone)
+ *           $ref: '#/components/schemas/AuthMethod'
+ *         description: The signup method (email, phoneNumber, or google)
  *     requestBody:
  *       required: true
  *       content:
@@ -63,7 +63,8 @@ authRouter.post("/signUp/:method", signUp);
  *         name: method
  *         required: true
  *         schema:
- *           type: string
+ *           $ref: '#/components/schemas/AuthMethod'
+ *         description: The sign-in method (email, phoneNumber, or google)
  *     requestBody:
  *       required: true
  *       content:
@@ -108,23 +109,30 @@ authRouter.get("/currentUser", authenticateToken, currentUser);
  *     parameters:
  *       - in: path
  *         name: method
+ *         required: true
  *         schema:
- *           type: string
+ *           $ref: '#/components/schemas/AuthMethod'
  *       - in: path
  *         name: methodCredential
+ *         required: true
  *         schema:
  *           type: string
+ *         description: The user's email or phone number
  *       - in: path
  *         name: newPassword
+ *         required: true
  *         schema:
  *           type: string
+ *         description: The new password
  *     responses:
  *       200:
  *         description: Password reset successfully
+ *       400:
+ *         description: Invalid parameters
  */
 authRouter.put(
-    "/resetPassword/:method/:methodCredential/:newPassword",
-    resetPassword
+  "/resetPassword/:method/:methodCredential/:newPassword",
+  resetPassword
 );
 
 /**
@@ -136,16 +144,21 @@ authRouter.put(
  *     parameters:
  *       - in: path
  *         name: method
+ *         required: true
  *         schema:
- *           type: string
+ *           $ref: '#/components/schemas/AuthMethod'
  *       - in: path
  *         name: contactInformation
+ *         required: true
  *         schema:
  *           type: string
+ *         description: The email or phone number to verify
  *       - in: path
  *         name: code
+ *         required: true
  *         schema:
  *           type: string
+ *         description: The verification code sent to the user
  *     responses:
  *       200:
  *         description: Verification successful
@@ -163,15 +176,18 @@ authRouter.put("/verify/:method/:contactInformation/:code", verify);
  *     parameters:
  *       - in: path
  *         name: method
+ *         required: true
  *         schema:
- *           type: string
+ *           $ref: '#/components/schemas/AuthMethod'
  *       - in: path
  *         name: contactInformation
+ *         required: true
  *         schema:
  *           type: string
+ *         description: The user's email or phone number
  *     responses:
  *       200:
- *         description: Account deleted
+ *         description: Account deleted successfully
  *       404:
  *         description: User not found
  */

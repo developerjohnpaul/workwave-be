@@ -2,6 +2,17 @@ import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 import { Express } from "express";
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     AuthMethod:
+ *       type: string
+ *       enum:
+ *         - email
+ *         - google
+ */
+
 const options = {
   definition: {
     openapi: "3.0.0",
@@ -12,7 +23,7 @@ const options = {
     },
     servers: [
       {
-        url:`${process?.env?.environment}/api-docs`,
+        url: `${process?.env?.environment}/api-docs`,
         description: "Local server",
       },
     ],
@@ -27,9 +38,7 @@ const options = {
     },
     security: [{ bearerAuth: [] }],
   },
-
-  // 👇 this is important based on your folder layout
-  apis: ["./src/clientFacingApi/endpoints/**/*.ts"],
+  apis: ["./src/clientFacingApi/endpoints/**/*.ts", "./src/clientFacingApi/docs/swagger.ts"], // 👈 include this file itself
 };
 
 const swaggerSpec = swaggerJsdoc(options);

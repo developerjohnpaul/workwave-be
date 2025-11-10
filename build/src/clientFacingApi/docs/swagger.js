@@ -6,6 +6,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.setupSwaggerDocs = setupSwaggerDocs;
 const swagger_jsdoc_1 = __importDefault(require("swagger-jsdoc"));
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     AuthMethod:
+ *       type: string
+ *       enum:
+ *         - email
+ *         - google
+ */
 const options = {
     definition: {
         openapi: "3.0.0",
@@ -31,8 +41,7 @@ const options = {
         },
         security: [{ bearerAuth: [] }],
     },
-    // 👇 this is important based on your folder layout
-    apis: ["./src/clientFacingApi/endpoints/**/*.ts"],
+    apis: ["./src/clientFacingApi/endpoints/**/*.ts", "./src/clientFacingApi/docs/swagger.ts"], // 👈 include this file itself
 };
 const swaggerSpec = (0, swagger_jsdoc_1.default)(options);
 function setupSwaggerDocs(app) {
