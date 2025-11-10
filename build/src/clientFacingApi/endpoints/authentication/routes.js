@@ -116,13 +116,19 @@ authRouter.get("/currentUser", auth_tokens_1.authenticateToken, controller_1.cur
  *         schema:
  *           type: string
  *         description: The new password
+ *       - in: path
+ *         name: code
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The verification code sent to the user
  *     responses:
  *       200:
  *         description: Password reset successfully
  *       400:
  *         description: Invalid parameters
  */
-authRouter.put("/resetPassword/:method/:methodCredential/:newPassword", controller_1.resetPassword);
+authRouter.put("/resetPassword/:method/:methodCredential/:newPassword/:code", controller_1.resetPassword);
 /**
  * @swagger
  * /auth/verify/{method}/{contactInformation}/{code}:
@@ -172,11 +178,17 @@ authRouter.put("/verify/:method/:contactInformation/:code", controller_1.verify)
  *         schema:
  *           type: string
  *         description: The user's email or phone number
+ *       - in: path
+ *         name: code
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The verification code sent to the user
  *     responses:
  *       200:
  *         description: Account deleted successfully
  *       404:
  *         description: User not found
  */
-authRouter.delete("/delete/:method/:contactInformation", controller_1.deleteAccount);
+authRouter.delete("/delete/:method/:contactInformation/:code", controller_1.deleteAccount);
 exports.default = authRouter;

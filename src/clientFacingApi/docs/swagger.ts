@@ -23,7 +23,7 @@ const options = {
     },
     servers: [
       {
-        url: `${process?.env?.environment}/api-docs`,
+        url: process?.env?.environment,
         description: "Local server",
       },
     ],

@@ -124,6 +124,12 @@ authRouter.get("/currentUser", authenticateToken, currentUser);
  *         schema:
  *           type: string
  *         description: The new password
+ *       - in: path
+ *         name: code
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The verification code sent to the user
  *     responses:
  *       200:
  *         description: Password reset successfully
@@ -131,7 +137,7 @@ authRouter.get("/currentUser", authenticateToken, currentUser);
  *         description: Invalid parameters
  */
 authRouter.put(
-  "/resetPassword/:method/:methodCredential/:newPassword",
+  "/resetPassword/:method/:methodCredential/:newPassword/:code",
   resetPassword
 );
 
@@ -185,12 +191,18 @@ authRouter.put("/verify/:method/:contactInformation/:code", verify);
  *         schema:
  *           type: string
  *         description: The user's email or phone number
+ *       - in: path
+ *         name: code
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The verification code sent to the user
  *     responses:
  *       200:
  *         description: Account deleted successfully
  *       404:
  *         description: User not found
  */
-authRouter.delete("/delete/:method/:contactInformation", deleteAccount);
+authRouter.delete("/delete/:method/:contactInformation/:code", deleteAccount);
 
 export default authRouter;

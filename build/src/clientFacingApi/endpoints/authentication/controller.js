@@ -46,24 +46,29 @@ const signUp = (req, res) => {
 };
 exports.signUp = signUp;
 const deleteAccount = (req, res) => {
-    let method = req?.params?.method;
-    let delQuery;
-    switch (method) {
-        case methodEnum?.phoneNumber:
-            delQuery = `DELETE FROM users
-            WHERE phoneNumber = ${req?.params?.contactInformation};`;
-            break;
-        case methodEnum?.email:
-        case methodEnum?.google:
-            delQuery = `DELETE FROM users
-            WHERE email = "${req?.params?.contactInformation}";`;
-    }
-    constants_1.conUser.query(delQuery, (err, result) => {
-        if (err) {
-            return res?.status(http_status_codes_1.StatusCodes?.BAD_REQUEST)?.json((0, helpers_1.ApiFailureResponse)("Failed to delete account!"));
+    let { method, contactInformation, code } = req?.params;
+    if ((0, cache_1.validateCache)(`otp:${contactInformation}`) && (0, helpers_1.decryptData)((0, cache_1.getCache)(`otp:${contactInformation}`)) == code) {
+        let delQuery;
+        switch (method) {
+            case methodEnum?.phoneNumber:
+                delQuery = `DELETE FROM users
+            WHERE phoneNumber = ${contactInformation};`;
+                break;
+            case methodEnum?.email:
+            case methodEnum?.google:
+                delQuery = `DELETE FROM users
+            WHERE email = "${contactInformation}";`;
         }
-        res.status(http_status_codes_1.StatusCodes?.OK)?.json((0, helpers_1.ApiSuccessResponse)(`Account deactivated successfully`));
-    });
+        constants_1.conUser.query(delQuery, (err, result) => {
+            if (err) {
+                return res?.status(http_status_codes_1.StatusCodes?.BAD_REQUEST)?.json((0, helpers_1.ApiFailureResponse)("Failed to delete account!"));
+            }
+            res.status(http_status_codes_1.StatusCodes?.OK)?.json((0, helpers_1.ApiSuccessResponse)(`Account deactivated successfully`));
+        });
+    }
+    else {
+        return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json((0, helpers_1.ApiFailureResponse)('Invalid OTP code. Please try again.'));
+    }
 };
 exports.deleteAccount = deleteAccount;
 const signIn = async (req, res) => {
@@ -131,26 +136,31 @@ const signInQuery = ({ sql, req, res, redirect }) => {
 };
 exports.signInQuery = signInQuery;
 const resetPassword = (req, res) => {
-    let { method, newPassword, methodCredential } = req?.params;
-    let sql;
-    switch (method) {
-        case methodEnum?.phoneNumber:
-            sql = ` UPDATE users 
+    let { method, newPassword, methodCredential, code } = req?.params;
+    if ((0, cache_1.validateCache)(`otp:${methodCredential}`) && (0, helpers_1.decryptData)((0, cache_1.getCache)(`otp:${methodCredential}`)) == code) {
+        let sql;
+        switch (method) {
+            case methodEnum?.phoneNumber:
+                sql = ` UPDATE users 
             SET pass = '${newPassword}'
             WHERE phoneNumber = ${methodCredential};`;
-            break;
-        case methodEnum?.email:
-        case methodEnum?.google:
-            sql = ` UPDATE users 
+                break;
+            case methodEnum?.email:
+            case methodEnum?.google:
+                sql = ` UPDATE users 
             SET pass = '${newPassword}'
             WHERE email = '${methodCredential}';`;
-    }
-    constants_1.conUser.query(sql, (err, result) => {
-        if (err) {
-            return res?.status(http_status_codes_1.StatusCodes?.INTERNAL_SERVER_ERROR)?.json((0, helpers_1.ApiFailureResponse)(enums_1.errorMessages?.internalServerError));
         }
-        res.status(http_status_codes_1.StatusCodes?.OK)?.json((0, helpers_1.ApiSuccessResponse)(null, "Password reset successfully"));
-    });
+        constants_1.conUser.query(sql, (err, result) => {
+            if (err) {
+                return res?.status(http_status_codes_1.StatusCodes?.INTERNAL_SERVER_ERROR)?.json((0, helpers_1.ApiFailureResponse)(enums_1.errorMessages?.internalServerError));
+            }
+            res.status(http_status_codes_1.StatusCodes?.OK)?.json((0, helpers_1.ApiSuccessResponse)(null, "Password reset successfully"));
+        });
+    }
+    else {
+        return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json((0, helpers_1.ApiFailureResponse)('Invalid OTP code. Please try again.'));
+    }
 };
 exports.resetPassword = resetPassword;
 const verify = (req, res) => {
