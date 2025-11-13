@@ -33,7 +33,7 @@ Content-Type: application/json
 }
 ###
 
-POST   https://workwave-be-1.onrender.com/auth/signIn/email
+POST   https://workwave-be.onrender.com/auth/signIn/email
 Content-Type: application/json
 
 { 
@@ -57,6 +57,9 @@ Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTQsImlhdCI6
 ###
 GET http://localhost:3010/devotion/fileById/11
 Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTQsImlhdCI6MTc0MDQ5ODQ3MCwiZXhwIjoxNzQwNTI3MjcwfQ.JJ45DwO1vRB2hBvTJx9x68h49gtBgqEpmoRa1l-DUAE
+
+###
+GET https://workwave-be.onrender.com/test
 
 
 ###

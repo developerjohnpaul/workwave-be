@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.verify = exports.resetPassword = exports.signInQuery = exports.currentUser = exports.signIn = exports.deleteAccount = exports.signUp = void 0;
+exports.verify = exports.resetPassword = exports.signInQuery = exports.test = exports.currentUser = exports.signIn = exports.deleteAccount = exports.signUp = void 0;
 require("dotenv/config");
 const constants_1 = require("../../utils/constants");
 const http_status_codes_1 = require("http-status-codes");
@@ -98,6 +98,10 @@ const currentUser = (req, res) => {
     (0, exports.signInQuery)({ sql, req, res, redirect: true });
 };
 exports.currentUser = currentUser;
+const test = (req, res) => {
+    res.json({ status: 'ok', timestamp: new Date() });
+};
+exports.test = test;
 const signInQuery = ({ sql, req, res, redirect }) => {
     constants_1.conUser.query(sql, (err, result) => {
         if (err) {

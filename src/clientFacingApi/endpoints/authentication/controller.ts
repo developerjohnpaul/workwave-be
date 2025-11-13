@@ -52,27 +52,27 @@ export const deleteAccount = (req: Request, res: Response) => {
     let { method, contactInformation, code } = req?.params;
     if (validateCache(`otp:${contactInformation}`) && decryptData(getCache(`otp:${contactInformation}`)) == code) {
         let delQuery;
-    switch (method) {
-        case methodEnum?.phoneNumber:
-            delQuery = `DELETE FROM users
+        switch (method) {
+            case methodEnum?.phoneNumber:
+                delQuery = `DELETE FROM users
             WHERE phoneNumber = ${contactInformation};`
-            break
-        case methodEnum?.email:
-        case methodEnum?.google:
-            delQuery = `DELETE FROM users
+                break
+            case methodEnum?.email:
+            case methodEnum?.google:
+                delQuery = `DELETE FROM users
             WHERE email = "${contactInformation}";`
-    }
-
-    conUser.query(delQuery, (err: MysqlError | null, result: any) => {
-        if (err) {
-            return res?.status(StatusCodes?.BAD_REQUEST)?.json(ApiFailureResponse("Failed to delete account!"));
         }
-        res.status(StatusCodes?.OK)?.json(ApiSuccessResponse(`Account deactivated successfully`))
-    })
+
+        conUser.query(delQuery, (err: MysqlError | null, result: any) => {
+            if (err) {
+                return res?.status(StatusCodes?.BAD_REQUEST)?.json(ApiFailureResponse("Failed to delete account!"));
+            }
+            res.status(StatusCodes?.OK)?.json(ApiSuccessResponse(`Account deactivated successfully`))
+        })
     } else {
         return res.status(StatusCodes.BAD_REQUEST).json(ApiFailureResponse('Invalid OTP code. Please try again.'));
     }
-   
+
 
 }
 
@@ -104,6 +104,10 @@ export const currentUser = (req: protectedRoutesRequest, res: Response) => {
     signInQuery({ sql, req, res, redirect: true });
 }
 
+
+export const test = (req: Request, res: Response) => {
+    res.json({ status: 'ok', timestamp: new Date() });
+}
 
 export const signInQuery = ({ sql, req, res, redirect }: queryInterface) => {
     conUser.query(sql, (err: MysqlError | null, result: any) => {
@@ -142,31 +146,31 @@ export const signInQuery = ({ sql, req, res, redirect }: queryInterface) => {
 
 
 export const resetPassword = (req: protectedRoutesRequest, res: Response) => {
-    let { method, newPassword, methodCredential,code } = req?.params;
+    let { method, newPassword, methodCredential, code } = req?.params;
     if (validateCache(`otp:${methodCredential}`) && decryptData(getCache(`otp:${methodCredential}`)) == code) {
         let sql;
-    switch (method) {
-        case methodEnum?.phoneNumber:
-            sql = ` UPDATE users 
+        switch (method) {
+            case methodEnum?.phoneNumber:
+                sql = ` UPDATE users 
             SET pass = '${newPassword}'
             WHERE phoneNumber = ${methodCredential};`
 
-            break
-        case methodEnum?.email:
-        case methodEnum?.google:
-            sql = ` UPDATE users 
+                break
+            case methodEnum?.email:
+            case methodEnum?.google:
+                sql = ` UPDATE users 
             SET pass = '${newPassword}'
             WHERE email = '${methodCredential}';`
-    }
+        }
 
-    conUser.query(sql, (err: MysqlError | null, result: any) => {
-        if (err) { return res?.status(StatusCodes?.INTERNAL_SERVER_ERROR)?.json(ApiFailureResponse(errorMessages?.internalServerError)); }
-        res.status(StatusCodes?.OK)?.json(ApiSuccessResponse(null, "Password reset successfully"));
-    })
+        conUser.query(sql, (err: MysqlError | null, result: any) => {
+            if (err) { return res?.status(StatusCodes?.INTERNAL_SERVER_ERROR)?.json(ApiFailureResponse(errorMessages?.internalServerError)); }
+            res.status(StatusCodes?.OK)?.json(ApiSuccessResponse(null, "Password reset successfully"));
+        })
     } else {
         return res.status(StatusCodes.BAD_REQUEST).json(ApiFailureResponse('Session expired, please request a new OTP'));
     }
-   
+
 }
 
 

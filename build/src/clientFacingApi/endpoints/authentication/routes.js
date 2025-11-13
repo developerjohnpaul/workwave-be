@@ -92,6 +92,7 @@ authRouter.post("/signIn/:method", controller_1.signIn);
  *         description: Unauthorized
  */
 authRouter.get("/currentUser", auth_tokens_1.authenticateToken, controller_1.currentUser);
+authRouter.get("/test", controller_1.test);
 /**
  * @swagger
  * /auth/resetPassword/{method}/{methodCredential}/{newPassword}/{code}:
