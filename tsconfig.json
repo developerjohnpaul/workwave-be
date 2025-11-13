@@ -17,7 +17,7 @@
       "@clientFacingApi/middleware/*": ["src/clientFacingApi/middleware/*"],
       "@clientFacingApi/models/*": ["src/clientFacingApi/models/*"],
       "@clientFacingApi/server-storage/*": ["src/clientFacingApi/server-storage/*"],
-      "@/*": ["./src*"] ,
+      "@/*": ["src/*"],
 
      
     }
