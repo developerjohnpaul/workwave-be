@@ -108,6 +108,7 @@ export const currentUser = (req: protectedRoutesRequest, res: Response) => {
 export const signInQuery = ({ sql, req, res, redirect }: queryInterface) => {
     conUser.query(sql, (err: MysqlError | null, result: any) => {
         if (err) {
+            console.log("err",err)
             return err?.code === 'ER_DUP_ENTRY' ?
                 res?.status(StatusCodes?.CONFLICT)?.json(ApiFailureResponse('Account already exists')) :
                 res?.status(StatusCodes?.INTERNAL_SERVER_ERROR)?.json(ApiFailureResponse(errorMessages?.internalServerError));
