@@ -4,6 +4,7 @@ import { Request, Response } from 'express';
 import { ApiFailureResponse, ApiSuccessResponse, decryptData, encryptData } from '../../utils/helpers';
 import { errorMessages } from '../../models/enums';
 import { transporter } from '../../utils/constants';
+import { TransactionalEmailsApi, SendSmtpEmail, TransactionalEmailsApiApiKeys } from "@getbrevo/brevo";
 import { setCache, getCache, deleteCache, validateCache } from "../../server-storage/cache";
 export const sendSmsOtp = async (req: Request, res: Response) => {
 
@@ -45,6 +46,11 @@ export const sendSmsOtp = async (req: Request, res: Response) => {
 }
 
 
+
+
+
+
+
 export const sendEmailOtp = async (req: Request, res: Response) => {
   const { reciever } = req.params
   const calc = Math.random();
@@ -52,32 +58,37 @@ export const sendEmailOtp = async (req: Request, res: Response) => {
   if (validateCache(`otp:${reciever}`)) {
     res.status?.(StatusCodes?.OK)?.json(ApiSuccessResponse({ reciever }, "OTP has already been sent!"));
   } else {
-    var mailOptions = {
-      from: {
-        name: "Workwave",
-        address: "developerjohnpaul@gmail.com",
-      },
-      to: `${reciever}`,
-      subject: `Email Confirmation Code [${otp}]`,
-      html: ` <h2>Email Confirmation </h2> 
+    const apiKey = process.env.BREVO_API_KEY as string;
+
+    const emailApi = new TransactionalEmailsApi();
+    emailApi.setApiKey(TransactionalEmailsApiApiKeys.apiKey, apiKey);
+
+    const sendSmtpEmail = new SendSmtpEmail();
+    sendSmtpEmail.sender = { email: "developerjohnpaul@gmail.com", name: "workwave" };
+    sendSmtpEmail.to = [{ email: `${reciever}`, name: "workwave" }];
+    sendSmtpEmail.subject = `Email Confirmation Code [${otp}]`;
+    sendSmtpEmail.htmlContent = ` <h2>Email Confirmation </h2> 
             <div> 
              <p style="font-size:13px">Your Confirmation code is :</p>
               <h2>${otp} </h2>
               <p style="font-size:13px">Above  is your Workwave verification pin. It expires in 20 minutes, one time use only </p>
              <p>If you didn't make this request please ignore this mail </p>
             </div>
-              `,
-    };
+              `;
 
-    transporter.sendMail(mailOptions, function (err, response) {
-      if (err) {
-        console.log("err",err)
-         return res?.status(StatusCodes?.INTERNAL_SERVER_ERROR)?.json(ApiFailureResponse(errorMessages?.internalServerError)); 
-       
+    try {
+      const response = await emailApi.sendTransacEmail(sendSmtpEmail);
+      if (response.body) {
+        setCache(`otp:${reciever}`, encryptData(otp));
+        res.status?.(StatusCodes?.OK)?.json(ApiSuccessResponse({ reciever }, "OTP sent successfully"));
+      } else {
+        return res?.status(StatusCodes?.INTERNAL_SERVER_ERROR)?.json(ApiFailureResponse(errorMessages?.internalServerError));
       }
-      setCache(`otp:${reciever}`, encryptData(otp));
-      res.status?.(StatusCodes?.OK)?.json(ApiSuccessResponse({ reciever }, "OTP sent successfully"));
-    });
+    } catch (error) {
+      return res?.status(StatusCodes?.INTERNAL_SERVER_ERROR)?.json(ApiFailureResponse(errorMessages?.internalServerError));
+    }
+
+
   }
 }
 

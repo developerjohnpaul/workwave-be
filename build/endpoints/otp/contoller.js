@@ -5,10 +5,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.verifyOtp = exports.sendEmailOtp = exports.sendSmsOtp = void 0;
 const axios_1 = __importDefault(require("axios"));
+const sib_api_v3_sdk_1 = __importDefault(require("sib-api-v3-sdk"));
 const http_status_codes_1 = require("http-status-codes");
 const helpers_1 = require("../../utils/helpers");
 const enums_1 = require("../../models/enums");
-const brevo_1 = require("@getbrevo/brevo");
 const cache_1 = require("../../server-storage/cache");
 const sendSmsOtp = async (req, res) => {
     try {
@@ -57,24 +57,26 @@ const sendEmailOtp = async (req, res) => {
         res.status?.(http_status_codes_1.StatusCodes?.OK)?.json((0, helpers_1.ApiSuccessResponse)({ reciever }, "OTP has already been sent!"));
     }
     else {
-        const apiKey = process.env.BREVO_API_KEY;
-        const emailApi = new brevo_1.TransactionalEmailsApi();
-        emailApi.setApiKey(brevo_1.TransactionalEmailsApiApiKeys.apiKey, apiKey);
-        const sendSmtpEmail = new brevo_1.SendSmtpEmail();
-        sendSmtpEmail.sender = { email: "developerjohnpaul@gmail.com", name: "workwave" };
-        sendSmtpEmail.to = [{ email: `${reciever}`, name: "workwave" }];
-        sendSmtpEmail.subject = `Email Confirmation Code [${otp}]`;
-        sendSmtpEmail.htmlContent = ` <h2>Email Confirmation </h2> 
+        const defaultClient = sib_api_v3_sdk_1.default.ApiClient.instance;
+        const apiKey = defaultClient.authentications["api-key"];
+        apiKey.apiKey = process.env.BREVO_API_KEY;
+        const apiInstance = new sib_api_v3_sdk_1.default.TransactionalEmailsApi();
+        const sendSmtpEmail = {
+            sender: { email: "developerjohnpaul@gmail.com", name: "Workwave" }, // must match verified sender
+            to: [{ email: `${reciever}` }],
+            subject: `Email Confirmation Code [${otp}]`,
+            htmlContent: ` <h2>Email Confirmation </h2> 
             <div> 
              <p style="font-size:13px">Your Confirmation code is :</p>
               <h2>${otp} </h2>
               <p style="font-size:13px">Above  is your Workwave verification pin. It expires in 20 minutes, one time use only </p>
              <p>If you didn't make this request please ignore this mail </p>
             </div>
-              `;
+              `
+        };
         try {
-            const response = await emailApi.sendTransacEmail(sendSmtpEmail);
-            if (response.body) {
+            const data = await apiInstance.sendTransacEmail(sendSmtpEmail);
+            if (data) {
                 (0, cache_1.setCache)(`otp:${reciever}`, (0, helpers_1.encryptData)(otp));
                 res.status?.(http_status_codes_1.StatusCodes?.OK)?.json((0, helpers_1.ApiSuccessResponse)({ reciever }, "OTP sent successfully"));
             }
