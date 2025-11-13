@@ -23,7 +23,7 @@ const options = {
     },
     servers: [
       {
-        url: process?.env?.API_BASE_URL,
+        url: process.env.RENDER_EXTERNAL_URL,
         description: "Local server",
       },
     ],
@@ -45,5 +45,5 @@ const swaggerSpec = swaggerJsdoc(options);
 
 export function setupSwaggerDocs(app: Express) {
   app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-  console.log(`✅ Swagger Docs available at: ${process?.env?.API_BASE_URL}/api-docs`);
+  console.log(`✅ Swagger Docs available at: ${process.env.RENDER_EXTERNAL_URL}/api-docs`);
 }

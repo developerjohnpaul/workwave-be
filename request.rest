@@ -33,7 +33,7 @@ Content-Type: application/json
 }
 ###
 
-POST   https://workwave-be.onrender.com/auth/signIn/email
+POST   https://workwave-be-1.onrender.com/auth/signIn/email
 Content-Type: application/json
 
 { 
