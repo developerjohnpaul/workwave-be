@@ -10,21 +10,20 @@
     "baseUrl": "./",
     "strictPropertyInitialization": false,
     "paths": {
+      //client
       "@clientFacingApi/utils/*": ["src/clientFacingApi/utils/*"],
       "@clientFacingApi/endpoints/*": ["src/clientFacingApi/endpoints/*"],
       "@clientFacingApi/helpers/*": ["src/clientFacingApi/helpers/*"],
       "@clientFacingApi/middleware/*": ["src/clientFacingApi/middleware/*"],
       "@clientFacingApi/models/*": ["src/clientFacingApi/models/*"],
       "@clientFacingApi/server-storage/*": ["src/clientFacingApi/server-storage/*"],
-      "@/*": ["src/*"]
-    },
-    "typeRoots": [
-      "./node_modules/@types",
-      "./types"
-    ]
+      "@/*": ["src/*"],
+
+     
+    }
   },
   "include": [
     "src",
-    "types"
+    "src/types/**/*.d.ts" 
   ]
 }

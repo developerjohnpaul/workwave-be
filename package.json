@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon server.ts",
     "prestart": "npm run build",
-"start": "node build/server.js",
+    "start": "nodemon build/server.js",
     "build": "tsc && tsc-alias",
     "build:watch": "tsc && (concurrently \"tsc -w\" \"tsc-alias -w\")"
   },
