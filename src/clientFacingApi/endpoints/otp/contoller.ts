@@ -3,7 +3,6 @@ import { StatusCodes } from 'http-status-codes';
 import { Request, Response } from 'express';
 import { ApiFailureResponse, ApiSuccessResponse, decryptData, encryptData } from '../../utils/helpers';
 import { errorMessages } from '../../models/enums';
-import { transporter } from '../../utils/constants';
 import { TransactionalEmailsApi, SendSmtpEmail, TransactionalEmailsApiApiKeys } from "@getbrevo/brevo";
 import { setCache, getCache, deleteCache, validateCache } from "../../server-storage/cache";
 export const sendSmsOtp = async (req: Request, res: Response) => {
