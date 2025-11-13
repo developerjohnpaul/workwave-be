@@ -5,7 +5,6 @@ import {
   resetPassword,
   signIn,
   signUp,
-  test,
   verify,
 } from "./controller";
 import { authenticateToken } from "../../middleware/auth-tokens";
@@ -100,7 +99,6 @@ authRouter.post("/signIn/:method", signIn);
  *         description: Unauthorized
  */
 authRouter.get("/currentUser", authenticateToken, currentUser);
-authRouter.get("/test", test);
 
 /**
  * @swagger

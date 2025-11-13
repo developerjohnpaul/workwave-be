@@ -58,5 +58,5 @@ io.on('connection', (socket) => {
 // Start server
 server.listen(PORT, () => {
     console.log(`✅ Server running on port ${PORT}`);
-    console.log(`Swagger available at ${process.env.RENDER_EXTERNAL_URL || `http://localhost:${PORT}`}/api-docs`);
+    console.log(`Swagger available at ${process.env.API_BASE_URL || `http://localhost:${PORT}`}/api-docs`);
 });
