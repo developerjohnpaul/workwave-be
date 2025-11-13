@@ -71,6 +71,7 @@ export const sendEmailOtp = async (req: Request, res: Response) => {
 
     transporter.sendMail(mailOptions, function (err, response) {
       if (err) {
+        console.log("err",err)
          return res?.status(StatusCodes?.INTERNAL_SERVER_ERROR)?.json(ApiFailureResponse(errorMessages?.internalServerError)); 
        
       }

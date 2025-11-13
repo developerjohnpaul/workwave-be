@@ -5,7 +5,7 @@ export const mysql = require("mysql");
 }
 export const transporter = nodemailer.createTransport({
     service: "gmail",
-  auth: {
+    auth: {
     user: "blime.invest@gmail.com",
     pass: "wfrzgenbqozvyrhv",
   }
