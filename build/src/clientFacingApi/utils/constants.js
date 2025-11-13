@@ -24,7 +24,7 @@ exports.conUser = exports.mysql.createPool({
     user: process?.env?.DB_AUTH_USER,
     password: process?.env?.DB_AUTH_PASSWORD,
     database: process?.env?.DB_AUTH_DATABASE,
-    port: process?.env?.DB_AUTH_PORT,
+    port: process?.env?.DB_AUTH_PORT
 });
 exports.conOperation = exports.mysql.createPool({
     host: process?.env?.operation_DB_AUTH_HOST,

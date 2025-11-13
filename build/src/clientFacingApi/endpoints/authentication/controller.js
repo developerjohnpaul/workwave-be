@@ -103,6 +103,13 @@ const test = (req, res) => {
 };
 exports.test = test;
 const signInQuery = ({ sql, req, res, redirect }) => {
+    console.log("conUser", {
+        host: process?.env?.DB_AUTH_HOST,
+        user: process?.env?.DB_AUTH_USER,
+        password: process?.env?.DB_AUTH_PASSWORD,
+        database: process?.env?.DB_AUTH_DATABASE,
+        port: process?.env?.DB_AUTH_PORT
+    }, constants_1.conUser);
     constants_1.conUser.query(sql, (err, result) => {
         if (err) {
             return err?.code === 'ER_DUP_ENTRY' ?

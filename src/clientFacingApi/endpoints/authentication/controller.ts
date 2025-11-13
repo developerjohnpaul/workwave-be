@@ -110,6 +110,13 @@ export const test = (req: Request, res: Response) => {
 }
 
 export const signInQuery = ({ sql, req, res, redirect }: queryInterface) => {
+console.log("conUser",{
+    host: process?.env?.DB_AUTH_HOST,
+    user: process?.env?.DB_AUTH_USER,
+    password: process?.env?.DB_AUTH_PASSWORD,
+    database: process?.env?.DB_AUTH_DATABASE,
+    port: process?.env?.DB_AUTH_PORT
+},conUser)
     conUser.query(sql, (err: MysqlError | null, result: any) => {
         if (err) {
             return err?.code === 'ER_DUP_ENTRY' ?

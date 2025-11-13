@@ -20,7 +20,7 @@ export const conUser = mysql.createPool({
     user: process?.env?.DB_AUTH_USER,
     password: process?.env?.DB_AUTH_PASSWORD,
     database: process?.env?.DB_AUTH_DATABASE,
-    port: process?.env?.DB_AUTH_PORT,
+    port: process?.env?.DB_AUTH_PORT
 });
 
 export const conOperation = mysql.createPool({

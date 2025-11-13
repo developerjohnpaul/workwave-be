@@ -59,7 +59,7 @@ GET http://localhost:3010/devotion/fileById/11
 Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTQsImlhdCI6MTc0MDQ5ODQ3MCwiZXhwIjoxNzQwNTI3MjcwfQ.JJ45DwO1vRB2hBvTJx9x68h49gtBgqEpmoRa1l-DUAE
 
 ###
-GET https://workwave-be.onrender.com/test
+GET https://workwave-be.onrender.com/auth/test
 
 
 ###
