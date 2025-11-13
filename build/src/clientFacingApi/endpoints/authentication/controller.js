@@ -101,7 +101,6 @@ exports.currentUser = currentUser;
 const signInQuery = ({ sql, req, res, redirect }) => {
     constants_1.conUser.query(sql, (err, result) => {
         if (err) {
-            console.log("err", process.env, process.env.DB_AUTH_HOST, err);
             return err?.code === 'ER_DUP_ENTRY' ?
                 res?.status(http_status_codes_1.StatusCodes?.CONFLICT)?.json((0, helpers_1.ApiFailureResponse)('Account already exists')) :
                 res?.status(http_status_codes_1.StatusCodes?.INTERNAL_SERVER_ERROR)?.json((0, helpers_1.ApiFailureResponse)(enums_1.errorMessages?.internalServerError));
