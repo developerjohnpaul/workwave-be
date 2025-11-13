@@ -2,7 +2,7 @@
 import { apiFailureResponse, apiSuccessResponse} from "../../clientFacingApi/models/index"
 import CryptoJS from 'crypto-js'; 
 
-export const cryptoAesKey  = process?.env?.crypto_aes_key as string
+export const cryptoAesKey  = process?.env?.CRYPTO_AES_KEY as string
 export const ApiSuccessResponse = (data: any, message?: string): apiSuccessResponse<any> => {
     return {
         success: true,

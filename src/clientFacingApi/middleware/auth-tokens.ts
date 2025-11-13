@@ -13,9 +13,9 @@ interface authMiddleware {
 
 export const initializeToken = ({ id }: authMiddleware) => {
     try {
-        if (!process.env.jwt_secret_key) return false
+        if (!process.env.JWT_SECRET_KEY) return false
         const accessToken = jwt.sign(
-            { id }, process.env.jwt_secret_key, { expiresIn: "8h" }
+            { id }, process.env.JWT_SECRET_KEY, { expiresIn: "8h" }
         );
         return accessToken
     }
@@ -26,15 +26,15 @@ export const initializeToken = ({ id }: authMiddleware) => {
 
 
 export const authenticateToken = (req: protectedRoutesRequest, res: Response, next: NextFunction) => {
-    if (!process.env.jwt_secret_key) { return res?.status(StatusCodes?.INTERNAL_SERVER_ERROR)?.json(ApiFailureResponse(errorMessages?.internalServerError)) }
+    if (!process.env.JWT_SECRET_KEY) { return res?.status(StatusCodes?.INTERNAL_SERVER_ERROR)?.json(ApiFailureResponse(errorMessages?.internalServerError)) }
     const authHeader = req.headers["authorization"];
     const accessToken = authHeader ? authHeader.split(" ")[1] : "";
     jwt.verify(
         accessToken,
-        process.env.jwt_secret_key,
+        process.env.JWT_SECRET_KEY,
         (error: jwt.VerifyErrors | null, decryptedAccessToken: any) => {
             if (error) {
-                if (!process.env.jwt_secret_key) { return res?.status(StatusCodes?.INTERNAL_SERVER_ERROR)?.json(ApiFailureResponse(errorMessages?.internalServerError)) }
+                if (!process.env.JWT_SECRET_KEY) { return res?.status(StatusCodes?.INTERNAL_SERVER_ERROR)?.json(ApiFailureResponse(errorMessages?.internalServerError)) }
                 return res?.status(StatusCodes?.UNAUTHORIZED)?.json(ApiFailureResponse("Session expired"))
             } else {
                 req.verifiedToken = decryptedAccessToken;

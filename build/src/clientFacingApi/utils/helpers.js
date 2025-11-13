@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.decryptData = exports.encryptData = exports.slicedUserName = exports.isValidJsonString = exports.formattedDateAndTime = exports.convertBitToBoolean = exports.ApiFailureResponse = exports.ApiSuccessResponse = exports.cryptoAesKey = void 0;
 const crypto_js_1 = __importDefault(require("crypto-js"));
-exports.cryptoAesKey = process?.env?.crypto_aes_key;
+exports.cryptoAesKey = process?.env?.CRYPTO_AES_KEY;
 const ApiSuccessResponse = (data, message) => {
     return {
         success: true,

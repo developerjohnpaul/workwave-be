@@ -15,7 +15,7 @@ export const sendSmsOtp = async (req: Request, res: Response) => {
       res.status?.(StatusCodes?.OK)?.json(ApiSuccessResponse({ reciever }, "OTP has already been sent!"));
     } else {
       const data = {
-        api_key: process.env.termii_api_key,
+        api_key: process.env.TERMII_API_KEY,
         message_type: "ALPHANUMERIC",
         to: `${reciever}`,
         from: "N-Alert",

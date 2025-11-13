@@ -16,19 +16,19 @@ export const transporter = nodemailer.createTransport({
 }
 
 export const conUser = mysql.createPool({
-    host: process?.env?.db_auth_host,
-    user: process?.env?.db_auth_user,
-    password: process?.env?.db_auth_password,
-    database: process?.env?.db_auth_database,
-    port: process?.env?.db_auth_port,
+    host: process?.env?.DB_AUTH_HOST,
+    user: process?.env?.DB_AUTH_USER,
+    password: process?.env?.DB_AUTH_PASSWORD,
+    database: process?.env?.DB_AUTH_DATABASE,
+    port: process?.env?.DB_AUTH_PORT,
 });
 
 export const conOperation = mysql.createPool({
-    host: process?.env?.operation_db_auth_host,
-    user: process?.env?.operation_db_auth_user,
-    password: process?.env?.operation_db_auth_password,
-    database: process?.env?.operation_db_auth_database,
-    port: process?.env?.operation_db_auth_port,
+    host: process?.env?.operation_DB_AUTH_HOST,
+    user: process?.env?.operation_DB_AUTH_USER,
+    password: process?.env?.operation_DB_AUTH_PASSWORD,
+    database: process?.env?.operation_DB_AUTH_DATABASE,
+    port: process?.env?.operation_DB_AUTH_PORT,
 });
 
 

@@ -26,7 +26,7 @@ const options = {
         },
         servers: [
             {
-                url: process?.env?.environment,
+                url: process?.env?.API_BASE_URL,
                 description: "Local server",
             },
         ],
@@ -46,5 +46,5 @@ const options = {
 const swaggerSpec = (0, swagger_jsdoc_1.default)(options);
 function setupSwaggerDocs(app) {
     app.use("/api-docs", swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swaggerSpec));
-    console.log(`✅ Swagger Docs available at: ${process?.env?.environment}/api-docs`);
+    console.log(`✅ Swagger Docs available at: ${process?.env?.API_BASE_URL}/api-docs`);
 }
