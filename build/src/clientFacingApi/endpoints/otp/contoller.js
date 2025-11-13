@@ -75,6 +75,7 @@ const sendEmailOtp = async (req, res) => {
         };
         constants_1.transporter.sendMail(mailOptions, function (err, response) {
             if (err) {
+                console.log("Error_log", err);
                 return res?.status(http_status_codes_1.StatusCodes?.INTERNAL_SERVER_ERROR)?.json((0, helpers_1.ApiFailureResponse)(enums_1.errorMessages?.internalServerError));
             }
             (0, cache_1.setCache)(`otp:${reciever}`, (0, helpers_1.encryptData)(otp));

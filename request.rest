@@ -33,12 +33,12 @@ Content-Type: application/json
 }
 ###
 
-POST   http://localhost:3010/auth/signIn/email
+POST   https://workwave-be.onrender.com/auth/signIn/email
 Content-Type: application/json
 
 { 
  "email":"developerjohnpaul@gmail.com",
-"pass":"12345"
+"pass":"1111"
 }
 
 ###
@@ -98,7 +98,7 @@ GET   http://localhost:3010/audioSermon/files/inCategory/4/1/30
 ###
 GET   http://localhost:3010/testimony/fileById/1
 ###
-POST    http://localhost:3010/otp/send/mail/developerjohnpaul@gmail.com
+POST    https://workwave-be.onrender.com/otp/send/mail/developerjohnpaul@gmail.com
 ###
 POST    http://localhost:3010/otp/verify/developerjohnpaul@gmail.com/1224
 ###

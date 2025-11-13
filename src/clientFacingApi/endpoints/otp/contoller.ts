@@ -70,7 +70,11 @@ export const sendEmailOtp = async (req: Request, res: Response) => {
     };
 
     transporter.sendMail(mailOptions, function (err, response) {
-      if (err) { return res?.status(StatusCodes?.INTERNAL_SERVER_ERROR)?.json(ApiFailureResponse(errorMessages?.internalServerError)); }
+      if (err) {
+        console.log("Error_log",err)
+         return res?.status(StatusCodes?.INTERNAL_SERVER_ERROR)?.json(ApiFailureResponse(errorMessages?.internalServerError)); 
+       
+      }
       setCache(`otp:${reciever}`, encryptData(otp));
       res.status?.(StatusCodes?.OK)?.json(ApiSuccessResponse({ reciever }, "OTP sent successfully"));
     });
