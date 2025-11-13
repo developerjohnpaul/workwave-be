@@ -55,7 +55,7 @@ export const sendEmailOtp = async (req: Request, res: Response) => {
     var mailOptions = {
       from: {
         name: "Workwave",
-        address: "blime.invest@gmail.com",
+        address: "developerjohnpaul@gmail.com",
       },
       to: `${reciever}`,
       subject: `Email Confirmation Code [${otp}]`,

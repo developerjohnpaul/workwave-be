@@ -4,12 +4,12 @@ export const mysql = require("mysql");
     /**************************** transporter ********************************** */
 }
 export const transporter = nodemailer.createTransport({
-    host:"smtp.gmail.com",
-    port: 465,
-    secure:true,
+    host: process?.env?.SMTP_HOST,
+    port:  Number(process?.env?.SMTP_PORT),
+    secure:false,
     auth: {
-    user: "blime.invest@gmail.com",
-    pass: "wfrzgenbqozvyrhv",
+    user: process?.env?.SMTP_USER,
+    pass: process?.env?.SMTP_PASS,
   }
 });
 

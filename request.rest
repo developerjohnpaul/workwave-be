@@ -47,7 +47,7 @@ Content-Type: application/json
 
 { 
  "email":"developerjohnpaul@gmail.com",
-"pass":"1111"
+"pass":"12345"
 }
 
 ###
